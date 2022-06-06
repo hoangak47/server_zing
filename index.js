@@ -20,9 +20,6 @@ app.use(
     })
 )
 
-const URL = 'http://localhost:8000'
-
-
 //routes
 app.get('/api/playlist/:encodeId', (req, res) => {
     try {
@@ -47,40 +44,16 @@ app.get('/api/song/:encodeId', (req, res) => {
 
 })
 
-app.get('/api/home/1',  (req, res) => {
+app.get('/api/home/:id',  (req, res) => {
     try{
-        ZingMp3.getHome("1").then((data) => {
+        ZingMp3.getHome(req.params.id).then((data) => {
             res.status(200).json(data)
         })
-        // res.status(200).json(Home1)
     }
     catch(error){
         res.status(500).json(error);
     }
 })  
-
-app.get('/api/home/2', (req, res) => {
-    try{
-        ZingMp3.getHome(2).then((data) => {
-            res.status(200).json(data)
-        })
-    }
-    catch(error){
-        res.status(500).json(error);
-    }
-}
-)
-
-app.get('/api/home/3', (req, res) => {
-    try{
-        ZingMp3.getHome(3).then((data) => {
-            res.status(200).json(data)
-        })
-    }
-    catch(error){
-        res.status(500).json(error);
-    }
-})
 
 app.get('/api/chart-home', (req, res) => {
     try{
@@ -93,9 +66,72 @@ app.get('/api/chart-home', (req, res) => {
     }
 })
 
-// app.get('*', (req, res) => {
-//     res.send('nhap sai link roi ban oi !!')
-// })
+app.get('/api/getTop100', (req, res) => {
+    try{
+        ZingMp3.getTop100().then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/getNewReleaseChart', (req, res) => {
+    try{
+        ZingMp3.getNewReleaseChart().then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/getInfo/:encodeId', (req, res) => {
+    try{
+        ZingMp3.getInfo(req.params.encodeId).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/getArtist/:encodeId', (req, res) => {
+    try{
+        ZingMp3.getArtist(req.params.encodeId).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/getLyric/:encodeId', (req, res) => {
+    try{
+        ZingMp3.getLyric(req.params.encodeId).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/search/:keyword', (req, res) => {
+    try{
+        ZingMp3.search(req.params.keyword).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 //run server
 app.listen(process.env.PORT || 8000, () => {
 console.log('Server is running on port 8000');
