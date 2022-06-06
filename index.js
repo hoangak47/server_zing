@@ -97,6 +97,6 @@ app.get('/api/chart-home', (req, res) => {
 //     res.send('nhap sai link roi ban oi !!')
 // })
 //run server
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
 console.log('Server is running on port 8000');
 })
