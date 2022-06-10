@@ -132,6 +132,39 @@ app.get('/api/search/:keyword', (req, res) => {
     }
 })
 
+app.get('/api/listMV/:id/:page/:count' , (req, res) => {
+    try{
+        ZingMp3.getListMV(req.params.id,req.params.page,req.params.count).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/categoryMV/:id', (req, res) => {
+    try{
+        ZingMp3.getCategoryMV(req.params.id).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+app.get('/api/getMV/:encodeId', (req, res) => {
+    try{
+        ZingMp3.getVideo(req.params.encodeId).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 //run server
 app.listen(process.env.PORT || 8000, () => {
 console.log('Server is running on port 8000');
