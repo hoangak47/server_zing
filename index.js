@@ -165,6 +165,18 @@ app.get('/api/getMV/:encodeId', (req, res) => {
     }
 })
 
+app.get('/api/searchAll/:q/:page/:count', (req, res) => {
+    try{
+        ZingMp3.searchAll(req.params.q,req.params.page,req.params.count).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+
+})
+
 //run server
 app.listen(process.env.PORT || 8000, () => {
 console.log('Server is running on port 8000');
