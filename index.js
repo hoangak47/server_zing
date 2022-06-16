@@ -4,7 +4,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const { ZingMp3 } = require("zingmp3-api-full")
+const { ZingMp3 } = require("zingmp3-api-full-v2")
 const app = express();
 
 
