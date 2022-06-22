@@ -189,6 +189,18 @@ app.get('/api/searchAllPlaylist/:q/:page/:count', (req, res) => {
 
 })
 
+app.get('/api/searchAllVideo/:q/:page/:count', (req, res) => {
+    try{
+        ZingMp3.searchAllVideo(req.params.q,req.params.page,req.params.count).then((data) => {
+            res.status(200).json(data)
+        })
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+
+})
+
 app.get('/api/recommend-keyword', (req, res) => {
     try{
         ZingMp3.Suggest().then((data)=>{

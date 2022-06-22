@@ -48,6 +48,10 @@ class ZingMp3Api {
         return this.getHmac512(path +
             this.getHash256(`count=${count}ctime=${this.CTIME}page=${page}type=${type}version=${this.VERSION}`), this.SECRET_KEY);
     }
+    hashSearchAllVideo(path, type, page, count) {
+        return this.getHmac512(path +
+            this.getHash256(`count=${count}ctime=${this.CTIME}page=${page}type=${type}version=${this.VERSION}`), this.SECRET_KEY);
+    }
     hashSuggest(path) {
         return this.getHmac512(path + this.getHash256(`ctime=${this.CTIME}version=${this.VERSION}`), this.SECRET_KEY);
 
@@ -271,6 +275,24 @@ class ZingMp3Api {
                 page: page,
                 count: count,
                 sig: this.hashSearchAllPlaylist("/api/v2/search", "playlist", page, count),
+            })
+                .then((res) => {
+                resolve(res);
+            })
+                .catch((err) => {
+                rejects(err);
+            });
+        });
+    }
+
+    searchAllVideo(name, page, count) {
+        return new Promise((resolve, rejects) => {
+            this.requestZingMp3("/api/v2/search", {
+                q: name,
+                type: "video",
+                page: page,
+                count: count,
+                sig: this.hashSearchAllVideo("/api/v2/search", "video", page, count),
             })
                 .then((res) => {
                 resolve(res);
