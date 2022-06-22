@@ -77,6 +77,26 @@ class ZingMp3Api {
     );
   }
 
+  private hashSearchAllPlaylist (path: string, type: string, page: string, count: string) {
+    return this.getHmac512(
+      path +
+        this.getHash256(
+          `count=${count}ctime=${this.CTIME}page=${page}type=${type}version=${this.VERSION}`
+        ),
+      this.SECRET_KEY
+    );
+  }
+
+  private hashSuggest (path: string) {
+    return this.getHmac512(
+      path +
+        this.getHash256(
+          `ctime=${this.CTIME}version=${this.VERSION}`
+        ),
+      this.SECRET_KEY
+    );
+  }
+
   private getCookie(): Promise<any> {
     return new Promise<any>((resolve, rejects) => {
         axios.get(`${this.URL}`)
@@ -299,6 +319,38 @@ class ZingMp3Api {
         page: page,
         count: count,
         sig: this.hashSearchAll("/api/v2/search", "song", page, count),
+      })
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          rejects(err)
+        })
+    })
+  }
+
+  public searchAllPlaylist(q: string ,page: string, count: string): Promise<any> {
+    return new Promise<any>((resolve, rejects) => {
+      this.requestZingMp3("/api/v2/search", {
+        q: q,
+        type: "playlist",
+        page: page,
+        count: count,
+        sig: this.hashSearchAllPlaylist("/api/v2/search", "playlist", page, count),
+      })
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          rejects(err)
+        })
+    })
+  }
+
+  public Suggest(): Promise<any> {
+    return new Promise<any>((resolve, rejects) => {
+      this.requestZingMp3("/api/v2/app/get/recommend-keyword", {
+        sig: this.hashSuggest("/api/v2/app/get/recommend-keyword"),
       })
         .then((res) => {
           resolve(res)

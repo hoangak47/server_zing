@@ -44,6 +44,14 @@ class ZingMp3Api {
         return this.getHmac512(path +
             this.getHash256(`count=${count}ctime=${this.CTIME}page=${page}type=${type}version=${this.VERSION}`), this.SECRET_KEY);
     }
+    hashSearchAllPlaylist(path, type, page, count) {
+        return this.getHmac512(path +
+            this.getHash256(`count=${count}ctime=${this.CTIME}page=${page}type=${type}version=${this.VERSION}`), this.SECRET_KEY);
+    }
+    hashSuggest(path) {
+        return this.getHmac512(path + this.getHash256(`ctime=${this.CTIME}version=${this.VERSION}`), this.SECRET_KEY);
+
+    }
     getCookie() {
         return new Promise((resolve, rejects) => {
             axios_1.default.get(`${this.URL}`)
@@ -245,6 +253,38 @@ class ZingMp3Api {
                 page: page,
                 count: count,
                 sig: this.hashSearchAll("/api/v2/search", "song", page, count),
+            })
+                .then((res) => {
+                resolve(res);
+            })
+                .catch((err) => {
+                rejects(err);
+            });
+        });
+    }
+
+    searchAllPlaylist(name, page, count) {
+        return new Promise((resolve, rejects) => {
+            this.requestZingMp3("/api/v2/search", {
+                q: name,
+                type: "playlist",
+                page: page,
+                count: count,
+                sig: this.hashSearchAllPlaylist("/api/v2/search", "playlist", page, count),
+            })
+                .then((res) => {
+                resolve(res);
+            })
+                .catch((err) => {
+                rejects(err);
+            });
+        });
+    }
+
+    Suggest() {
+        return new Promise((resolve, rejects) => {
+            this.requestZingMp3("/api/v2/app/get/recommend-keyword", {
+                sig: this.hashSuggest("/api/v2/app/get/recommend-keyword"),
             })
                 .then((res) => {
                 resolve(res);
