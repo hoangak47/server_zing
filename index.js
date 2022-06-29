@@ -44,9 +44,9 @@ app.get('/api/song/:encodeId', (req, res) => {
 
 })
 
-app.get('/api/home/:id',  (req, res) => {
+app.get('/api/home',  (req, res) => {
     try{
-        ZingMp3.getHome(req.params.id).then((data) => {
+        ZingMp3.getHome().then((data) => {
             res.status(200).json(data)
         })
     }

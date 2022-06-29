@@ -30,8 +30,8 @@ class ZingMp3Api {
     hashParam(path, id) {
         return this.getHmac512(path + this.getHash256(`ctime=${this.CTIME}id=${id}version=${this.VERSION}`), this.SECRET_KEY);
     }
-    hashParamHome(path, page) {
-        return this.getHmac512(path + this.getHash256(`ctime=${this.CTIME}page=${page}version=${this.VERSION}`), this.SECRET_KEY);
+    hashParamHome(path) {
+        return this.getHmac512(path + this.getHash256(`count=30ctime=${this.CTIME}page=1version=${this.VERSION}`), this.SECRET_KEY);
     }
     hashCategoryMV(path, id, type) {
         return this.getHmac512(path + this.getHash256(`ctime=${this.CTIME}id=${id}type=${type}version=${this.VERSION}`), this.SECRET_KEY);
@@ -131,12 +131,13 @@ class ZingMp3Api {
         });
     }
     // getHome
-    getHome(page) {
+    getHome() {
         return new Promise((resolve, rejects) => {
             this.requestZingMp3("/api/v2/page/get/home", {
-                page: page,
+                page: 1,
                 segmentId: "-1",
-                sig: this.hashParamHome("/api/v2/page/get/home", page)
+                count: "30",
+                sig: this.hashParamHome("/api/v2/page/get/home")
             })
                 .then((res) => {
                 resolve(res);
@@ -316,7 +317,6 @@ class ZingMp3Api {
             });
         });
     }
-
     // getListMV
     getListMV(id, page, count) {
         return new Promise((resolve, rejects) => {
@@ -336,8 +336,6 @@ class ZingMp3Api {
             });
         });
     }
-
-
     // getCategoryMV
     getCategoryMV(id) {
         return new Promise((resolve, rejects) => {
@@ -371,7 +369,7 @@ class ZingMp3Api {
     }
 } // END
 // instance default
-exports.ZingMp3 = new ZingMp3Api("1.5.4", // VERSION
+exports.ZingMp3 = new ZingMp3Api("1.6.34", // VERSION
 "https://zingmp3.vn", // URL
 "2aa2d1c561e809b267f3638c4a307aab", // SECRET_KEY
 "88265e23d4284f25963e6eedac8fbfa3", // API_KEY
