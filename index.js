@@ -201,6 +201,10 @@ app.get("/api/recommend-keyword", (req, res) => {
 });
 
 //run server
-app.listen(process.env.PORT || 8000, () => {
-  console.log("Server is running on port 8000");
-});
+// app.listen(process.env.PORT || 8000, "0.0.0.0", () => {
+//   console.log("Server is running on port 8000");
+// });
+
+app.listen(3000, "0.0.0.0", () =>
+  console.log("Server running on 0.0.0.0:3000")
+);
